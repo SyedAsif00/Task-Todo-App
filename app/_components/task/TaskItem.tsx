@@ -3,15 +3,8 @@ import React from "react";
 import Image from "next/image";
 import Button from "../form/Button";
 import { useRouter } from "next/navigation";
+import { Task } from "@/app/_types/Task";
 
-// Define Task Type
-interface Task {
-  id: number;
-  text: string;
-  completed: boolean;
-}
-
-// Define Props Type
 interface TaskItemProps {
   task: Task;
   onToggle: (id: number) => void;
@@ -53,7 +46,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) => {
           task.completed ? "line-through text-gray-500" : "hover:text-gray-300"
         }`}
       >
-        {task.text}
+        {task.title}
       </span>
 
       {/* Delete Icon */}

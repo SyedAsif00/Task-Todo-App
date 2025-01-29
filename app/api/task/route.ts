@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { Task } from "@/app/_types/Task";
 
 const prisma = new PrismaClient();
 
@@ -20,7 +21,7 @@ type TaskInput = {
 
 export async function GET() {
   try {
-    const tasks = await prisma.task.findMany();
+    const tasks: Task[] = await prisma.task.findMany();
     return createSuccessResponse({ tasks });
   } catch (error: any) {
     console.error("GET error:", error);

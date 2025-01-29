@@ -1,22 +1,24 @@
 "use client";
 import React from "react";
 import TaskItem from "./TaskItem";
+import { Task } from "@/app/_types/Task";
 
 // Define Task Type for better reusability
-interface Task {
-  id: number;
-  text: string;
-  completed: boolean;
-}
 
 // Define Props Type
 interface TaskListProps {
   tasks: Task[];
+  loading: boolean;
   onToggle: (id: number) => void;
   onDelete: (id: number) => void;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, onToggle, onDelete }) => {
+const TaskList: React.FC<TaskListProps> = ({
+  tasks,
+  onToggle,
+  onDelete,
+  loading,
+}) => {
   return (
     <div className="w-full max-w-2xl space-y-4">
       {tasks.length > 0 ? (
