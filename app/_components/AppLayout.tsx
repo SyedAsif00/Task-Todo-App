@@ -1,19 +1,18 @@
 "use client";
 import React, { ReactNode } from "react";
-
 import AppBar from "./AppBar";
 
 interface AppLayoutProps {
   children?: ReactNode;
 }
 
-// Basic app layout including App bar and sidebar
-const AppLayout = ({ children }: AppLayoutProps) => {
+const AppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <React.Fragment>
+    <div className="">
       <AppBar />
-      {children}
-    </React.Fragment>
+      <main className="">{children}</main>
+    </div>
   );
 };
+
 export default AppLayout;
