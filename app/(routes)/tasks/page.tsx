@@ -18,12 +18,25 @@ const TasksPage: React.FC = () => {
   }, []);
 
   // Toggle Task Completion
-  const toggleTask = (id: number) => {
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
-    );
+  const toggleTask = async (id: number) => {
+    // setTasks((prev) =>
+    //   prev.map((task) =>
+    //     task.id === id ? { ...task, completed: !task.completed } : task
+    //   )
+    // );
+    try {
+      const taskToUpdate = tasks.find((e) => e.id === id);
+      if (!taskToUpdate) return;
+      setDeletingTask(true);
+      await TaskService.updateTask(id, { completed: !taskToUpdate?.completed });
+
+      taskToUpdate.completed = !taskToUpdate?.completed;
+      setTasks([...tasks]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setDeletingTask(false);
+    }
   };
 
   // Delete Task

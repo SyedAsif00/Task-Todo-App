@@ -6,3 +6,9 @@ export interface Task {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface UpdateTasks {
+  title?: string;
+  color?: string;
+  completed?: boolean;
+}
