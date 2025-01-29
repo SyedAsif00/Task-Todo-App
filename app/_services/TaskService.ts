@@ -4,7 +4,7 @@ import { Task, UpdateTasks } from "../_types/Task";
 const TaskService = {
   getTasks: async (): Promise<Task[]> => {
     try {
-      const { data } = await axios.get("api/task");
+      const { data } = await axios.get("/api/task");
       return data?.tasks;
     } catch (e) {
       throw e;
@@ -29,7 +29,7 @@ const TaskService = {
   },
   updateTask: async (id: number, task: UpdateTasks): Promise<boolean> => {
     try {
-      await axios.put("api/task", { id, ...task });
+      await axios.put("/api/task", { id, ...task });
 
       return true;
     } catch (error) {

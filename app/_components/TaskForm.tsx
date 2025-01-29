@@ -8,7 +8,6 @@ import Image from "next/image";
 import ColorPicker from "@/app/_components/ColorPicker";
 import FormLabel from "@/app/_components/form/FormLabel";
 
-// ✅ Add `title` and `buttonText` to the interface
 interface TaskFormProps {
   title: string;
   buttonText: string;
@@ -27,7 +26,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const router = useRouter();
   const [task, setTask] = useState<string>(initialTask);
   const [selectedColor, setSelectedColor] = useState<string>(initialColor);
-  const [loading, setLoading] = useState<boolean>(false); // ✅ Loading state
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +35,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
     setLoading(true);
     try {
       await onSubmit(task, selectedColor);
-      router.push("/tasks"); // ✅ Redirect only on success
+      router.push("/tasks"); // ✅
     } catch (error) {
       console.error("Error creating task:", error);
     } finally {
@@ -45,7 +44,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
   };
   return (
     <div className="flex flex-col items-center justify-center px-6 py-12 text-white">
-      {/* Back Button */}
       <div className="w-full max-w-2xl flex justify-start">
         <Button
           variant="unstyled"
@@ -56,12 +54,10 @@ const TaskForm: React.FC<TaskFormProps> = ({
         </Button>
       </div>
 
-      {/* Form */}
       <form
         onSubmit={handleSubmit}
         className="flex flex-col space-y-6 w-full max-w-2xl p-6 rounded-lg shadow-md bg-transparent"
       >
-        {/* Task Title */}
         <div>
           <FormLabel label={title} color={colors.lightBlue} />
           <Input
@@ -74,7 +70,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
           />
         </div>
 
-        {/* Color Selection */}
         <div>
           <FormLabel label="Color" color={colors.lightBlue} />
           <ColorPicker
@@ -83,7 +78,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
           />
         </div>
 
-        {/* Submit Button */}
         <Button
           type="submit"
           className="w-full flex items-center justify-center space-x-2 text-white bg-btnColor hover:bg-opacity-90 py-3 px-4 text-lg font-semibold rounded-lg"
