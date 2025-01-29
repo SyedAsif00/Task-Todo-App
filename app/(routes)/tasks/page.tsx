@@ -10,9 +10,9 @@ import TaskService from "@/app/_services/TaskService";
 const TasksPage: React.FC = () => {
   const router = useRouter();
 
-  // State for tasks (temporary, will be replaced with backend integration)
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(false);
+  const [deletingTask, setDeletingTask] = useState(false);
   useEffect(() => {
     handleGetTasks();
   }, []);
@@ -27,8 +27,16 @@ const TasksPage: React.FC = () => {
   };
 
   // Delete Task
-  const deleteTask = (id: number) => {
-    setTasks((prev) => prev.filter((task) => task.id !== id));
+  const deleteTask = async (id: number) => {
+    try {
+      setDeletingTask(true);
+      await TaskService.delTasks(id);
+      setTasks((prev) => prev.filter((task) => task.id !== id));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setDeletingTask(false);
+    }
   };
 
   const handleGetTasks = async () => {
