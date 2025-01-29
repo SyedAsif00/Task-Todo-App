@@ -10,6 +10,15 @@ const TaskService = {
       throw e;
     }
   },
+  createTask: async (task: UpdateTasks): Promise<Task> => {
+    try {
+      const response = await axios.post("/api/task", { ...task });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
   delTasks: async (id: number): Promise<boolean> => {
     try {
       await axios.delete("api/task", { params: { id } });

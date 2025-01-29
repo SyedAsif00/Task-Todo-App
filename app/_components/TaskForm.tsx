@@ -27,13 +27,22 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const router = useRouter();
   const [task, setTask] = useState<string>(initialTask);
   const [selectedColor, setSelectedColor] = useState<string>(initialColor);
+  const [loading, setLoading] = useState<boolean>(false); // ✅ Loading state
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!task.trim()) return;
-    onSubmit(task, selectedColor);
-  };
 
+    setLoading(true);
+    try {
+      await onSubmit(task, selectedColor);
+      router.push("/tasks"); // ✅ Redirect only on success
+    } catch (error) {
+      console.error("Error creating task:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="flex flex-col items-center justify-center px-6 py-12 text-white">
       {/* Back Button */}

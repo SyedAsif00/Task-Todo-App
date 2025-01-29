@@ -13,21 +13,16 @@ const TasksPage: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(false);
   const [deletingTask, setDeletingTask] = useState(false);
+  const [updatingTask, setUpdatingTask] = useState(false);
   useEffect(() => {
     handleGetTasks();
   }, []);
 
-  // Toggle Task Completion
   const toggleTask = async (id: number) => {
-    // setTasks((prev) =>
-    //   prev.map((task) =>
-    //     task.id === id ? { ...task, completed: !task.completed } : task
-    //   )
-    // );
     try {
       const taskToUpdate = tasks.find((e) => e.id === id);
       if (!taskToUpdate) return;
-      setDeletingTask(true);
+      setUpdatingTask(true);
       await TaskService.updateTask(id, { completed: !taskToUpdate?.completed });
 
       taskToUpdate.completed = !taskToUpdate?.completed;
@@ -39,7 +34,6 @@ const TasksPage: React.FC = () => {
     }
   };
 
-  // Delete Task
   const deleteTask = async (id: number) => {
     try {
       setDeletingTask(true);
@@ -66,7 +60,6 @@ const TasksPage: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center p-6">
-      {/* Create Task Button */}
       <div className="mb-6 w-full max-w-2xl">
         <Button
           onClick={() => router.push("/tasks/add")}
@@ -76,7 +69,6 @@ const TasksPage: React.FC = () => {
         </Button>
       </div>
 
-      {/* Task List */}
       <TaskList
         tasks={tasks}
         onToggle={toggleTask}
