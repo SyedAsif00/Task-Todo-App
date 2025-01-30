@@ -4,7 +4,7 @@ import colors from "@/app/_utils/colors";
 
 const AppBar: React.FC = () => {
   return (
-    <header className="w-full bg-black py-5 border-b border-gray-800 shadow-lg flex justify-center">
+    <header className="w-full bg-black py-12 border-b border-gray-800 shadow-lg flex justify-center">
       <div className="flex items-center space-x-4">
         <div className="w-8 h-8 flex items-center justify-center">
           <Image

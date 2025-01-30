@@ -5,10 +5,6 @@ import EmptyState from "@/app/_components/task/EmptyState";
 
 interface TaskListProps {
   tasks: Task[];
-  // onToggle: (id: number) => void;
-  // onDelete: (id: number) => void;
-  // updatingTaskId: number | null;
-  // deletingTaskId: number | null;
 }
 
 const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
@@ -21,16 +17,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
           icon="/empty-icon.png"
         />
       ) : (
-        tasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            task={task}
-            // onToggle={onToggle}
-            // onDelete={onDelete}
-            // updatingTaskId={updatingTaskId}
-            // deletingTaskId={deletingTaskId}
-          />
-        ))
+        tasks.map((task) => <TaskItem key={task.id} task={task} />)
       )}
     </div>
   );

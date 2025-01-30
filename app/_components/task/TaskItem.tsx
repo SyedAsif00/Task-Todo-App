@@ -17,7 +17,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   return (
     <div
       onClick={() => router.push(`/tasks/edit/${task.id}`)}
-      className={`flex items-center justify-between w-full p-4 rounded-lg border border-gray-700 bg-gray-800 cursor-pointer transition hover:border-gray-500 ${
+      className={`flex items-center justify-between w-full p-4 rounded-lg border border-gray-700 bg-gray-800 cursor-pointer transition hover:border-gray-500 mt-2 ${
         task.completed ? "opacity-50" : ""
       }`}
     >

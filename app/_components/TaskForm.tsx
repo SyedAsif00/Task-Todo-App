@@ -43,7 +43,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-12 text-white">
+    <div className="flex flex-col items-center justify-center px-6  text-white">
       <div className="w-full max-w-2xl flex justify-start">
         <Button
           variant="unstyled"

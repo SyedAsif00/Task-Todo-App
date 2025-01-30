@@ -16,7 +16,9 @@ const TasksHeader: React.FC = () => {
         </span>
       </div>
 
-      <div className="w-full border-b border-gray-700 mt-2" />
+      {taskCount === 0 && completedCount === 0 ? (
+        <div className="w-full border-b border-gray-700 mt-2" />
+      ) : null}
     </div>
   );
 };
