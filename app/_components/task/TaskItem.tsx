@@ -5,6 +5,7 @@ import Button from "../form/Button";
 import { useRouter } from "next/navigation";
 import { Task } from "@/app/_types/Task";
 import Spinner from "../Spinner";
+import { useTaskContext } from "@/app/_context/TaskContext";
 interface TaskItemProps {
   task: Task;
   onToggle: (id: number) => void;
@@ -15,13 +16,20 @@ interface TaskItemProps {
 
 const TaskItem: React.FC<TaskItemProps> = ({
   task,
-  onToggle,
-  onDelete,
-  deletingTask,
-  updatingTaskId,
+  // onToggle,
+  // onDelete,
+  // deletingTask,
+  // updatingTaskId,
 }) => {
   const router = useRouter();
-
+  const {
+    loading,
+    tasks,
+    toggleTask,
+    deleteTask,
+    updatingTaskId,
+    deletingTask,
+  } = useTaskContext();
   return (
     <div
       onClick={() => router.push(`/tasks/edit/${task.id}`)}
@@ -36,7 +44,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
           variant="unstyled"
           onClick={(e) => {
             e.stopPropagation();
-            onToggle(task.id);
+            toggleTask(task.id);
           }}
           className="mr-4"
         >
@@ -67,7 +75,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
           variant="unstyled"
           onClick={(e) => {
             e.stopPropagation();
-            onDelete(task.id);
+            deleteTask(task.id);
           }}
           className="ml-4"
         >

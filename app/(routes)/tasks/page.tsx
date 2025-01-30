@@ -7,57 +7,65 @@ import colors from "@/app/_utils/colors";
 import { Task } from "@/app/_types/Task";
 import TaskService from "@/app/_services/TaskService";
 import Spinner from "@/app/_components/Spinner"; //
-
+import { useTaskContext } from "@/app/_context/TaskContext";
 const TasksPage: React.FC = () => {
   const router = useRouter();
+  const {
+    loading,
+    tasks,
+    toggleTask,
+    deleteTask,
+    updatingTaskId,
+    deletingTask,
+  } = useTaskContext();
 
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [deletingTask, setDeletingTask] = useState<number | null>(null);
-  const [updatingTaskId, setUpdatingTaskId] = useState<number | null>(null);
-  useEffect(() => {
-    handleGetTasks();
-  }, []);
+  // const [tasks, setTasks] = useState<Task[]>([]);
+  // const [loading, setLoading] = useState(false);
+  // const [deletingTask, setDeletingTask] = useState<number | null>(null);
+  // const [updatingTaskId, setUpdatingTaskId] = useState<number | null>(null);
+  // useEffect(() => {
+  //   handleGetTasks();
+  // }, []);
 
-  const toggleTask = async (id: number) => {
-    try {
-      const taskToUpdate = tasks.find((e) => e.id === id);
-      if (!taskToUpdate) return;
-      setUpdatingTaskId(id);
-      await TaskService.updateTask(id, { completed: !taskToUpdate?.completed });
+  // const toggleTask = async (id: number) => {
+  //   try {
+  //     const taskToUpdate = tasks.find((e) => e.id === id);
+  //     if (!taskToUpdate) return;
+  //     setUpdatingTaskId(id);
+  //     await TaskService.updateTask(id, { completed: !taskToUpdate?.completed });
 
-      taskToUpdate.completed = !taskToUpdate?.completed;
-      setTasks([...tasks]);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setUpdatingTaskId(null); // ✅ Reset after update
-    }
-  };
+  //     taskToUpdate.completed = !taskToUpdate?.completed;
+  //     setTasks([...tasks]);
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setUpdatingTaskId(null); // ✅ Reset after update
+  //   }
+  // };
 
-  const deleteTask = async (id: number) => {
-    try {
-      setDeletingTask(id);
-      await TaskService.delTasks(id);
-      setTasks((prev) => prev.filter((task) => task.id !== id));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setDeletingTask(null);
-    }
-  };
+  // const deleteTask = async (id: number) => {
+  //   try {
+  //     setDeletingTask(id);
+  //     await TaskService.delTasks(id);
+  //     setTasks((prev) => prev.filter((task) => task.id !== id));
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setDeletingTask(null);
+  //   }
+  // };
 
-  const handleGetTasks = async () => {
-    try {
-      setLoading(true);
-      const tasks = await TaskService.getTasks();
-      setTasks(tasks);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const handleGetTasks = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const tasks = await TaskService.getTasks();
+  //     setTasks(tasks);
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="flex flex-col items-center p-6 min-h-screen">

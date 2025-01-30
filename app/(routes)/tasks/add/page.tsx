@@ -2,23 +2,21 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import TaskForm from "@/app/_components/TaskForm";
-import TaskService from "@/app/_services/TaskService";
-import { Task } from "@/app/_types/Task";
+import { useTaskContext } from "@/app/_context/TaskContext";
+
 const AddTaskPage: React.FC = () => {
   const [creatingTask, setCreatingTask] = useState(false);
   const router = useRouter();
+  const { addTask } = useTaskContext(); // ✅ This will now work
 
   const handleAddTask = async (task: string, color: string) => {
     try {
       setCreatingTask(true);
-      const newTask = {
-        title: task,
-        color: color,
-        completed: false,
-      };
-      await TaskService.createTask(newTask);
+      const newTask = { title: task, color, completed: false };
+      await addTask(newTask); // ✅ Now properly calls context function
+      router.push("/tasks"); // ✅ Redirect after adding
     } catch (error) {
-      console.log(error);
+      console.error("Error adding task:", error);
     } finally {
       setCreatingTask(false);
     }

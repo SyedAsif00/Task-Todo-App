@@ -2,55 +2,35 @@
 import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import TaskForm from "@/app/_components/TaskForm";
-import TaskService from "@/app/_services/TaskService";
-import { Task } from "@/app/_types/Task";
+import { useTaskContext } from "@/app/_context/TaskContext";
 import colors from "@/app/_utils/colors";
+import { Task } from "@/app/_types/Task";
 
 const EditTaskPage: React.FC = () => {
   const router = useRouter();
   const { id } = useParams();
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const { tasks, updateTask } = useTaskContext(); // ✅ Use updateTask from context
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [updating, setUpdating] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        setLoading(true);
-        const fetchedTasks = await TaskService.getTasks();
-        setTasks(fetchedTasks);
-
-        const foundTask = fetchedTasks.find((t) => t.id === Number(id));
-        if (foundTask) {
-          setTask(foundTask);
-        }
-      } catch (error) {
-        console.error("Failed to fetch tasks:", error);
-      } finally {
-        setLoading(false);
+    if (tasks.length > 0) {
+      const foundTask = tasks.find((t) => t.id === Number(id));
+      if (foundTask) {
+        setTask(foundTask);
       }
-    };
-
-    fetchTasks();
-  }, [id]);
+      setLoading(false);
+    }
+  }, [id, tasks]);
 
   const handleUpdateTask = async (updatedTitle: string, color: string) => {
     if (!id || !task) return;
 
     try {
       setUpdating(true);
-      const updatedTask = { title: updatedTitle, color };
-      const success = await TaskService.updateTask(Number(id), updatedTask);
-
-      if (success) {
-        setTasks((prevTasks) =>
-          prevTasks.map((t) =>
-            t.id === Number(id) ? { ...t, ...updatedTask } : t
-          )
-        );
-        router.push("/tasks");
-      }
+      await updateTask(Number(id), { title: updatedTitle, color }); // ✅ Use updateTask()
+      router.push("/tasks"); // ✅ Redirect after updating
     } catch (error) {
       console.error("Error updating task:", error);
     } finally {
