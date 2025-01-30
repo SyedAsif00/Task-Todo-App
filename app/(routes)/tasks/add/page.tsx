@@ -7,14 +7,14 @@ import { useTaskContext } from "@/app/_context/TaskContext";
 const AddTaskPage: React.FC = () => {
   const [creatingTask, setCreatingTask] = useState(false);
   const router = useRouter();
-  const { addTask } = useTaskContext(); // ✅ This will now work
+  const { addTask } = useTaskContext();
 
   const handleAddTask = async (task: string, color: string) => {
     try {
       setCreatingTask(true);
       const newTask = { title: task, color, completed: false };
-      await addTask(newTask); // ✅ Now properly calls context function
-      router.push("/tasks"); // ✅ Redirect after adding
+      await addTask(newTask);
+      router.push("/tasks");
     } catch (error) {
       console.error("Error adding task:", error);
     } finally {

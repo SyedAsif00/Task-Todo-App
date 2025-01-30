@@ -4,7 +4,7 @@ import colors from "@/app/_utils/colors";
 
 export interface ColorPickerProps {
   selectedColor: string;
-  onSelectColor: (color: string) => void; // Ensuring TypeScript recognizes this prop
+  onSelectColor: (color: string) => void;
 }
 
 const ColorPicker: React.FC<ColorPickerProps> = ({
@@ -14,7 +14,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
   return (
     <div className="flex space-x-4">
       {Object.entries(colors)
-        .slice(4) // Skipping non-color values like black, btnColor
+        .slice(4)
         .map(([key, color]) => (
           <button
             key={key}
@@ -24,7 +24,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
             style={{ backgroundColor: color }}
             onClick={(e) => {
               e.preventDefault();
-              onSelectColor(color); // Ensure correct prop usage
+              onSelectColor(color);
             }}
             aria-label={`Select ${key} color`}
           />

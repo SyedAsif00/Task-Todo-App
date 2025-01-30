@@ -8,28 +8,12 @@ import Spinner from "../Spinner";
 import { useTaskContext } from "@/app/_context/TaskContext";
 interface TaskItemProps {
   task: Task;
-  onToggle: (id: number) => void;
-  onDelete: (id: number) => void;
-  deletingTask: number | null;
-  updatingTaskId: number | null;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({
-  task,
-  // onToggle,
-  // onDelete,
-  // deletingTask,
-  // updatingTaskId,
-}) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const router = useRouter();
-  const {
-    loading,
-    tasks,
-    toggleTask,
-    deleteTask,
-    updatingTaskId,
-    deletingTask,
-  } = useTaskContext();
+  const { toggleTask, deleteTask, updatingTaskId, deletingTaskId } =
+    useTaskContext();
   return (
     <div
       onClick={() => router.push(`/tasks/edit/${task.id}`)}
@@ -68,7 +52,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
         {task.title}
       </span>
 
-      {deletingTask === task.id ? (
+      {deletingTaskId === task.id ? (
         <Spinner className="" />
       ) : (
         <Button

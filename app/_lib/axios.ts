@@ -1,7 +1,6 @@
 "use client";
 import defaultAxios from "axios";
 
-// axios interceptor
 const axios = defaultAxios.create({
   baseURL: "",
 

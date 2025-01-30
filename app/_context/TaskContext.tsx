@@ -2,16 +2,26 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { Task } from "@/app/_types/Task";
 import TaskService from "@/app/_services/TaskService";
-
+interface UpdateTaskInput {
+  title?: string;
+  color?: string;
+  completed?: boolean;
+}
+interface AddTaskInput {
+  title: string;
+  color?: string;
+  completed: boolean;
+}
 interface TaskContextType {
   tasks: Task[];
   loading: boolean;
+  taskCount: number;
+  completedCount: number;
   updatingTaskId: number | null;
   deletingTaskId: number | null;
   getTasks: () => Promise<void>;
-  updateTask: (id: number, updatedTask: Partial<Task>) => Promise<void>; // ✅ Add updateTask type
-
-  addTask: (task: Task) => Promise<void>;
+  updateTask: (id: number, updatedTask: UpdateTaskInput) => Promise<void>;
+  addTask: (task: AddTaskInput) => Promise<void>;
   toggleTask: (id: number) => Promise<void>;
   deleteTask: (id: number) => Promise<void>;
 }
@@ -25,6 +35,8 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(false);
   const [updatingTaskId, setUpdatingTaskId] = useState<number | null>(null);
   const [deletingTaskId, setDeletingTaskId] = useState<number | null>(null);
+  const taskCount = tasks.filter((task) => task.completed === false).length;
+  const completedCount = tasks.filter((task) => task.completed).length;
 
   useEffect(() => {
     getTasks();
@@ -42,11 +54,10 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  // ✅ Add Task (Ensure it is in the provider)
-  const addTask = async (task: Task) => {
+  const addTask = async (task: AddTaskInput) => {
     try {
       await TaskService.createTask(task);
-      await getTasks(); // ✅ Fetch updated tasks from backend
+      await getTasks();
     } catch (error) {
       console.error("Error adding task:", error);
     }
@@ -87,14 +98,14 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
       setDeletingTaskId(null);
     }
   };
-  const updateTask = async (id: number, updatedTask: Partial<Task>) => {
+  const updateTask = async (id: number, updatedTask: UpdateTaskInput) => {
     try {
       setUpdatingTaskId(id);
-      await TaskService.updateTask(id, updatedTask); // ✅ Update in backend
+      await TaskService.updateTask(id, updatedTask);
 
       setTasks((prevTasks) =>
-        prevTasks.map(
-          (task) => (task.id === id ? { ...task, ...updatedTask } : task) // ✅ Update in local state
+        prevTasks.map((task) =>
+          task.id === id ? { ...task, ...updatedTask } : task
         )
       );
     } catch (error) {
@@ -108,11 +119,13 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({
     <TaskContext.Provider
       value={{
         tasks,
+        taskCount,
+        completedCount,
         loading,
         updatingTaskId,
         deletingTaskId,
         getTasks,
-        addTask, // ✅
+        addTask,
         toggleTask,
         deleteTask,
         updateTask,

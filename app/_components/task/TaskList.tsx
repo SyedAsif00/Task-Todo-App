@@ -1,50 +1,36 @@
-"use client";
 import React from "react";
-import TaskItem from "./TaskItem";
 import { Task } from "@/app/_types/Task";
-import { useTaskContext } from "@/app/_context/TaskContext";
+import TaskItem from "./TaskItem";
+import EmptyState from "@/app/_components/task/EmptyState";
+
 interface TaskListProps {
   tasks: Task[];
-  loading: boolean;
-  onToggle: (id: number) => void;
-  onDelete: (id: number) => void;
-  updatingTaskId: number | null;
-  deletingTask: number | null;
+  // onToggle: (id: number) => void;
+  // onDelete: (id: number) => void;
+  // updatingTaskId: number | null;
+  // deletingTaskId: number | null;
 }
 
-const TaskList: React.FC<TaskListProps> = (
-  {
-    // tasks,
-    // onToggle,
-    // onDelete,
-    // loading,
-    // updatingTaskId,
-    // deletingTask,
-  }
-) => {
-  const {
-    loading,
-    tasks,
-    toggleTask,
-    deleteTask,
-    updatingTaskId,
-    deletingTask,
-  } = useTaskContext();
+const TaskList: React.FC<TaskListProps> = ({ tasks }) => {
   return (
-    <div className="w-full max-w-2xl space-y-4">
-      {tasks.length > 0 ? (
+    <div className="w-full max-w-2xl">
+      {tasks.length === 0 ? (
+        <EmptyState
+          title="You don't have any tasks registered yet."
+          description="Create tasks and organize your to-do items."
+          icon="/empty-icon.png"
+        />
+      ) : (
         tasks.map((task) => (
           <TaskItem
             key={task.id}
             task={task}
-            onToggle={toggleTask}
-            onDelete={deleteTask}
-            updatingTaskId={updatingTaskId}
-            deletingTask={deletingTask}
+            // onToggle={onToggle}
+            // onDelete={onDelete}
+            // updatingTaskId={updatingTaskId}
+            // deletingTaskId={deletingTaskId}
           />
         ))
-      ) : (
-        <p className="text-gray-400 text-center">No tasks available</p>
       )}
     </div>
   );

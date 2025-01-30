@@ -12,8 +12,9 @@ const colors = {
   purple: "#af52de",
   pink: "#FF2D55",
   brown: "#A2845E",
-
+  background: "#1a1a1a",
   textColor: "#f2f2f2",
+  lightGrayText: "#808080",
 };
 
 export default colors;
