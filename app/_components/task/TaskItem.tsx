@@ -4,14 +4,22 @@ import Image from "next/image";
 import Button from "../form/Button";
 import { useRouter } from "next/navigation";
 import { Task } from "@/app/_types/Task";
-
+import Spinner from "../Spinner";
 interface TaskItemProps {
   task: Task;
   onToggle: (id: number) => void;
   onDelete: (id: number) => void;
+  deletingTask: number | null;
+  updatingTaskId: number | null;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) => {
+const TaskItem: React.FC<TaskItemProps> = ({
+  task,
+  onToggle,
+  onDelete,
+  deletingTask,
+  updatingTaskId,
+}) => {
   const router = useRouter();
 
   return (
@@ -21,26 +29,29 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) => {
         task.completed ? "opacity-50" : ""
       }`}
     >
-      <Button
-        variant="unstyled"
-        onClick={(e) => {
-          e.stopPropagation(); // Prevent triggering edit navigation
-          onToggle(task.id);
-        }}
-        className="mr-4"
-      >
-        <Image
-          src="/Layer 1.png"
-          alt="Layer Icon"
-          width={20}
-          height={20}
-          className={`transition ${
-            task.completed ? "opacity-50" : "opacity-100 hover:opacity-80"
-          }`}
-        />
-      </Button>
+      {updatingTaskId == task.id ? (
+        <Spinner className="ml-4" />
+      ) : (
+        <Button
+          variant="unstyled"
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggle(task.id);
+          }}
+          className="mr-4"
+        >
+          <Image
+            src="/Layer 1.png"
+            alt="Layer Icon"
+            width={20}
+            height={20}
+            className={`transition ${
+              task.completed ? "opacity-50" : "opacity-100 hover:opacity-80"
+            }`}
+          />
+        </Button>
+      )}
 
-      {/* Task Text */}
       <span
         className={`flex-1 text-white transition ${
           task.completed ? "line-through text-gray-500" : "hover:text-gray-300"
@@ -49,23 +60,26 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onToggle, onDelete }) => {
         {task.title}
       </span>
 
-      {/* Delete Icon */}
-      <Button
-        variant="unstyled"
-        onClick={(e) => {
-          e.stopPropagation(); // Prevent triggering edit navigation
-          onDelete(task.id);
-        }}
-        className="ml-4"
-      >
-        <Image
-          src="/Vector.png"
-          alt="Delete Icon"
-          width={20}
-          height={20}
-          className="opacity-70 hover:opacity-100 transition"
-        />
-      </Button>
+      {deletingTask === task.id ? (
+        <Spinner className="" />
+      ) : (
+        <Button
+          variant="unstyled"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(task.id);
+          }}
+          className="ml-4"
+        >
+          <Image
+            src="/Vector.png"
+            alt="Delete Icon"
+            width={20}
+            height={20}
+            className="opacity-70 hover:opacity-100 transition"
+          />
+        </Button>
+      )}
     </div>
   );
 };

@@ -3,14 +3,13 @@ import React from "react";
 import TaskItem from "./TaskItem";
 import { Task } from "@/app/_types/Task";
 
-// Define Task Type for better reusability
-
-// Define Props Type
 interface TaskListProps {
   tasks: Task[];
   loading: boolean;
   onToggle: (id: number) => void;
   onDelete: (id: number) => void;
+  updatingTaskId: number | null;
+  deletingTask: number | null;
 }
 
 const TaskList: React.FC<TaskListProps> = ({
@@ -18,6 +17,8 @@ const TaskList: React.FC<TaskListProps> = ({
   onToggle,
   onDelete,
   loading,
+  updatingTaskId,
+  deletingTask,
 }) => {
   return (
     <div className="w-full max-w-2xl space-y-4">
@@ -28,6 +29,8 @@ const TaskList: React.FC<TaskListProps> = ({
             task={task}
             onToggle={onToggle}
             onDelete={onDelete}
+            updatingTaskId={updatingTaskId}
+            deletingTask={deletingTask}
           />
         ))
       ) : (
